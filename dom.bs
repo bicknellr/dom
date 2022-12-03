@@ -5887,6 +5887,7 @@ interface Element : Node {
   [CEReactions] undefined removeAttribute(DOMString qualifiedName);
   [CEReactions] undefined removeAttributeNS(DOMString? namespace, DOMString localName);
   [CEReactions] boolean toggleAttribute(DOMString qualifiedName, optional boolean force);
+  [CEReactions] boolean toggleAttributeNS(DOMString? namespace, DOMString localName, optional boolean force);
   boolean hasAttribute(DOMString qualifiedName);
   boolean hasAttributeNS(DOMString? namespace, DOMString localName);
 
@@ -6527,6 +6528,16 @@ namespace.</p>
 
   <p>Returns true if <var>qualifiedName</var> is now present; otherwise false.
 
+ <dt><code><var>element</var> . <a method for=Element lt=toggleAttributeNS()>toggleAttributeNS</a>(<var>namespace</var, <var>localName</var> [, <var>force</var>])</code>
+ <dd>
+  <p>If <var>force</var> is not given, "toggles" <var>element</var>'s <a>attribute</a> whose
+  <a for=Attr>namespace</a> is <var>namespace</var> and <a for=Attr>local name</a> is
+  <var>localName</var>, removing it if it is present and adding it if it is not present. If
+  <var>force</var> is true, adds the <a>attribute</a>. If <var>force</var> is false, removes the
+  <a>attribute</a>.
+
+  <p>Returns true if the <a>attribute</a> is now present; otherwise false.
+
  <dt><code><var>element</var> . <a method for=Element lt=hasAttribute()>hasAttribute</a>(<var>qualifiedName</var>)</code>
  <dd><p>Returns true if <var>element</var> has an <a>attribute</a> whose
  <a for=Attr>qualified name</a> is <var>qualifiedName</var>; otherwise false.
@@ -6668,6 +6679,36 @@ method steps are:
  <li><p>Otherwise, if <var>force</var> is not given or is false,
  <a lt="remove an attribute by name">remove an attribute</a> given <var>qualifiedName</var> and
  <a>this</a>, and then return false.
+
+ <li><p>Return true.
+</ol>
+
+<p>The
+<dfn method for=Element><code>toggleAttributeNS(<var>namespace</var>, <var>localName</var>, <var>force</var>)</code></dfn>
+method steps are:
+
+<ol>
+ <li><p>Let <var>namespace</var>, <var>prefix</var>, and <var>localName</var> be the result of
+ passing <var>namespace</var> and <var>qualifiedName</var> to <a>validate and extract</a>.
+
+ <li><p>Let <var>attr</var> be the result of
+ <a lt="get an attribute by namespace and local name">getting an attribute</a> given
+ <var>namespace</var>, <var>localName</var>, and <a>this</a>.
+
+ <li>
+  <p>If <var>attribute</var> is null, then:
+
+  <ol>
+   <li><p>If <var>force</var> is not given or is true, <a>set an attribute value</a> for <a>this</a>
+   using <var>localName</var>, the empty string, and also <var>prefix</var> and
+   <var>namespace</var>, and then return true.
+
+   <li><p>Return false.
+  </ol>
+
+ <li><p>Otherwise, if <var>force</var> is not given or is false,
+ <a lt="remove an attribute by namespace and local name">remove an attribute</a> given
+ <var>namespace</var>, <var>localName</var>, and <a>this</a>, and then return false.
 
  <li><p>Return true.
 </ol>
